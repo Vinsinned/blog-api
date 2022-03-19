@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1=post.title
+  h2=post.name
+  p=post.timestamp
+
+  br
+  p=post.content
+  hr
+
+  ul 
+    a(href=post.url + '/comments/create') Create Comment
+    hr
+    each comment in comments 
+      h3=comment.name
+      p=comment.timestamp 
+
+      br
+      p=comment.text
+      hr

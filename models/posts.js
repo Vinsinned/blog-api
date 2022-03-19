@@ -3,9 +3,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var postSchema = new Schema({
-    title: {type: String, required: true},
+    title: { type: String, required: true },
     author: { type: Schema.ObjectId, ref: 'Author', required: true },
-    content: {type: String, required: true},
+    name: { type: String, required: true },
+    content: { type: String, required: true },
     timestamp: { type: Date },
     published: { type: Boolean, default: false }
 });
@@ -14,7 +15,7 @@ var postSchema = new Schema({
 postSchema
 .virtual('url')
 .get(function () {
-  return '/catalog/book/'+this._id;
+  return '/posts/'+this._id;
 });
 
 // Export model.

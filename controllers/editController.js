@@ -1,15 +1,15 @@
 var Comment = require('../models/comments')
 var Post = require('../models/posts')
+var User = require('../models/user')
 var async = require('async')
 
 const { body, validationResult } = require("express-validator");
-const { post } = require('../app');
 
 exports.post_create_get = function (req, res, next) {
-    res.render('author_form', { title: 'Create Author' });
+    res.render('post_form', { title: 'Create Post', user: req.user });
 };
 
-exports.author_create_post = [
+exports.post_create_post = [
 
   // Validate and sanitize fields.
   body('title').trim().isLength({ min: 1 }).escape().withMessage('First name must be specified.'),
@@ -21,10 +21,11 @@ exports.author_create_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
     
-    // Create Author object with escaped and trimmed data
-    var author = new Author(
+    // Create Post object with escaped and trimmed data
+    var post = new Post(
       {
         title: req.body.title,
+        name: req.user.name.toString(),
         author: req.user.id,
         content: req.body.content,
         timestamp: new Date().toISOString(),
@@ -34,17 +35,17 @@ exports.author_create_post = [
 
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/errors messages.
-      res.render('author_form', { title: 'Create Author', author: author, errors: errors.array() });
+      res.render('post_form', { title: 'Create Post', post: post, errors: errors.array() });
       return;
     }
     else {
       // Data from form is valid.
 
-      // Save author.
-      author.save(function (err) {
+      // Save post.
+      post.save(function (err) {
         if (err) { return next(err); }
         // Successful - redirect to new author record.
-        res.redirect(author.url);
+        res.redirect(post.url);
       });
     }
   }

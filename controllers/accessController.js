@@ -37,7 +37,7 @@ exports.post_detail = function (req, res, next) {
 				return next(err);
 		}
 		// Successful, so render.
-		res.render('post_detail', { title: results.post.title, post: results.post, comments: results.comments });
+		res.render('post_detail', { title: results.post.title, post: results.post, comments: results.comments, user: req.user });
 	});
 
 }
@@ -77,8 +77,7 @@ exports.comment_create_post = [
 			// Save author.
 			comment.save(function (err) {
 				if (err) { return next(err); }
-				// Successful - redirect to new author record.
-				res.redirect(comment.url);
+				res.redirect('/posts/' + req.params.id);
 			});
 		}
 	}
