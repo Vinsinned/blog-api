@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+var controller = require('../controllers/accessController.js'); 
+
 /* GET posts listing. */
-router.get('/', function(req, res, next) {
-  res.send('See all posts');
-});
+router.get('/', controller.posts_list);
 
 /* GET comment details. */
 router.get('/:id/comments', function(req, res, next) {

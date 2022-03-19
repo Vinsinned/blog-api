@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var postSchema = new Schema({
     title: {type: String, required: true},
     author: { type: Schema.ObjectId, ref: 'Author', required: true },
-    text: {type: String, required: true},
+    content: {type: String, required: true},
     timestamp: { type: Date },
     published: { type: Boolean, default: false }
 });
