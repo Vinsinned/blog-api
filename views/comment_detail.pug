@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  p=comment.timestamp
+  hr
+
+  p=comment.text 
+  a(href='/posts/' + comment.post) Go back to post
+

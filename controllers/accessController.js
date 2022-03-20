@@ -82,3 +82,19 @@ exports.comment_create_post = [
 		}
 	}
 ]
+
+exports.comment_detail = function (req, res, next) { 
+
+	Comment.findById(req.params.id)
+	.exec(function (err, result) {
+		if (err) { return next(err); } // Error in API usage.
+		if (result == null) { // No results.
+			var err = new Error('Comment not found');
+			err.status = 404;
+			return next(err);
+		}
+		// Successful, so render.
+		res.render('comment_detail', { title: result.name, comment: result, user: req.user });
+	})
+
+}

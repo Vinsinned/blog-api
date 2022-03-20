@@ -13,7 +13,8 @@ block content
     a(href=post.url + '/comments/create') Create Comment
     hr
     each comment in comments 
-      h3=comment.name
+      a(href=comment.url+'/comments/detail') 
+        h3=comment.name
       p=comment.timestamp 
 
       br

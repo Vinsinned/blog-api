@@ -12,9 +12,7 @@ router.get('/create', editcontroller.post_create_get);
 router.post('/create', editcontroller.post_create_post);
 
 /* GET comment details. */
-router.get('/:id/comments', function(req, res, next) {
-  res.send('See all comments');
-});
+router.get('/:id/comments/detail', controller.comment_detail);
 
 /* GET comment form. */
 router.get('/:id/comments/create', controller.comment_create_get);
