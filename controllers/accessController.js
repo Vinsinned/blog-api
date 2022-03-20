@@ -85,7 +85,7 @@ exports.comment_create_post = [
 
 exports.comment_detail = function (req, res, next) { 
 
-	Comment.findById(req.params.id)
+	Comment.findById(req.params.commentid)
 	.exec(function (err, result) {
 		if (err) { return next(err); } // Error in API usage.
 		if (result == null) { // No results.

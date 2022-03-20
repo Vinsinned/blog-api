@@ -62,7 +62,7 @@ exports.post_update_get = function (req, res, next) {
         return next(err);
     }
     // Success.
-    res.render('post_form', { title: 'Update Post', post: post });
+    res.render('post_form', { title: 'Update Post', post: post, user: req.user });
   });
 
 };
@@ -83,10 +83,10 @@ exports.post_update_post = [
     }
     else {
       // Data from form is valid. Update the record.
-      Post.findByIdAndUpdate(req.params.id, {'title': req.body.title, 'content': req.body.text}, function (err, thepost) {
+      Post.findByIdAndUpdate(req.params.id, {'title': req.body.title, 'content': req.body.content}, function (err, thepost) {
         if (err) { return next(err); }
         // Successful - redirect to genre detail page.
-        res.redirect(thepost.url);
+        res.redirect('/posts' + thepost.url);
       });
     }
 
@@ -112,18 +112,22 @@ exports.post_delete_post = function (req, res, next) {
   Post.findById(req.params.id).exec(function (err, result) {
     if (err) { return next(err); }
     // Success.
-    Post.findByIdAndRemove(req.body.postid, function deletePost(err) {
+    Post.findByIdAndRemove(req.params.id, function deletePost(err) {
       if (err) { return next(err); }
       // Success - go to posts list.
       res.redirect('/posts')
     })
-  })
+  });
+
+  Comment.deleteMany({ 'post': req.params.id }).exec(function (err, result) {
+    if (err) { return next(err); }
+  });
 
 };
 
 exports.comment_delete_get = function (req, res, next) {
 
-  Comment.findById(req.params.id).exec(function (err, result) {
+  Comment.findById(req.params.commentid).exec(function (err, result) {
     if (err) { return next(err); }
     if (result == null) { // No results.
       res.redirect('/posts/' + req.params.id);
@@ -136,24 +140,20 @@ exports.comment_delete_get = function (req, res, next) {
 
 exports.comment_delete_post = function (req, res, next) {
 
-  Comment.findById(req.params.id).exec(function (err, result) {
+  Comment.findByIdAndRemove(req.params.commentid).exec(function (err, result) {
     if (err) { return next(err); }
     // Success.
-    Comment.findByIdAndRemove(req.body.commentid, function deleteComment(err) {
-      if (err) { return next(err); }
-      // Success - go to posts list.
-      res.redirect('/posts/' + req.params.id)
-    })
+    res.redirect('/posts/' + req.params.id);
   })
 
 };
 
 exports.comment_update_get = function (req, res, next) {
 
-  Comment.findById(req.params.id, function (err, comment) {
+  Comment.findById(req.params.commentid, function (err, comment) {
     if (err) { return next(err); }
     if (comment == null) { // No results.
-        var err = new Error('Author not found');
+        var err = new Error('Comment not found');
         err.status = 404;
         return next(err);
     }
@@ -173,15 +173,15 @@ exports.comment_update_post = [
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values and error messages.
-      res.render('post_form', { title: 'Update Comment', comment: Comment.findById(req.params.id), errors: errors.array() });
+      res.render('post_form', { title: 'Update Comment', comment: Comment.findById(req.params.commentid), errors: errors.array() });
       return;
     }
     else {
       // Data from form is valid. Update the record.
-      Comment.findByIdAndUpdate(req.params.id, {'text': req.body.text, 'name': req.body.name}, function (err, thecomment) {
+      Comment.findByIdAndUpdate(req.params.commentid, {'text': req.body.text, 'name': req.body.name}, function (err, thecomment) {
         if (err) { return next(err); }
         // Successful - redirect to genre detail page.
-        res.redirect(thecomment.url);
+        res.redirect('/posts/' + thecomment.post);
       });
     }
 

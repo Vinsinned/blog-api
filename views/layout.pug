@@ -11,7 +11,7 @@ html(lang='en')
   body
     div(class='container-fluid')
       div(class='row')
-        div(class='col-sm-2')
+        div(class='col-sm-2 sidebar')
           block sidebar
             ul(class='sidebar-nav')
               li 
@@ -21,14 +21,11 @@ html(lang='en')
               li 
                 a(href='/log-in') Log In
               li 
-                a(href='/log-out') Log Out
-              hr
-              li 
                 a(href='/posts') Posts
               li 
-                a(href='/posts/create') Create post
+                a(href='/admin/create') Create post
               li 
                 a(href='/posts') Log Out
                 
-        div(class='col-sm-10')
+        div(class='col-sm-10 content')
           block content

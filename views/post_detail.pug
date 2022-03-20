@@ -10,13 +10,16 @@ block content
   hr
 
   ul 
-    a(href=post.url + '/comments/create') Create Comment
+    a(href='/posts' + post.url + '/comments/create') Create Comment
     hr
     each comment in comments 
-      a(href=comment.url+'/comments/detail') 
+      a(href='/posts/' + comment.post + '/detail' + comment.url)
         h3=comment.name
       p=comment.timestamp 
 
       br
       p=comment.text
       hr
+
+      a(href='/admin/' + comment.post + '/delete' + comment.url) Delete Comment
+      a(href='/admin/' + comment.post + '/update' + comment.url) Update Comment

@@ -7,15 +7,19 @@ var logger = require('morgan');
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+var cors = require('cors')
 var bcrypt = require('bcryptjs');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
+var adminRouter = require('./routes/admin');
 
 var User = require('./models/user')
 
 var app = express();
+
+app.use(cors())
 
 passport.use(
   new LocalStrategy((username, password, done) => {
@@ -78,6 +82,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/admin', adminRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,5 @@
 body {
-  padding: 25px;
+  padding: 0;
   margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
@@ -24,4 +24,31 @@ li {
 
 .sidebar-nav {
   padding: 0;
+}
+
+/* layout */
+.sidebar {
+  background-color: #252627;
+  box-sizing: border-box;
+  height: 100vh;
+  width: 20vw;
+  text-align: center;
+}
+.sidebar * {
+  color: #BFB48F;
+}
+.content {
+  padding: 1rem;
+  background-color: #F2EFE9;
+  text-align: center;
+}
+
+/* post list */
+.postContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.col {
+  background-color: #564E58;
+  width: minmax(500px, 1fr);
 }

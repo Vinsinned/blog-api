@@ -3,10 +3,13 @@ extends layout
 block content
   h1=title
 
-  ul
-  each post in post_list
-    li 
-      a(href=post.url) #{post.name} 
+  div(class="postContainter")
+    each post in post_list
+      div(class="col")
+        a(href='/posts' + post.url) #{post.title} 
+        //if user   
+        a(href='/admin' + post.url + '/delete') Delete Post
+        a(href='/admin' + post.url + '/update') Update Post
 
-  else
-    li There are no posts.
+    else
+      h1 There are no posts.

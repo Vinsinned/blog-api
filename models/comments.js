@@ -13,7 +13,7 @@ var commentSchema = new Schema({
 commentSchema
 .virtual('url')
 .get(function () {
-  return '/posts/'+this._id;
+  return '/'+this._id;
 });
 
 // Export model.
